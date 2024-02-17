@@ -1,4 +1,4 @@
-import CreateCustomerUsecase from "./create.customer.usecase";
+import CreateCustomerUseCase from "./createCustomerUseCase";
 
 const input = {
     name: "John",
@@ -23,7 +23,7 @@ const MockRepository = () => {
 describe("Unit test create customer use case", () => {
     it ("should create customer", async () => {
         const customerRepository = MockRepository()
-        const usecase = new CreateCustomerUsecase(customerRepository)
+        const usecase = new CreateCustomerUseCase(customerRepository)
 
         const output = {
             id: expect.any(String),
@@ -35,4 +35,26 @@ describe("Unit test create customer use case", () => {
 
         expect(result).toEqual(output);
     })
+
+    it("should thrown an error when name is missing", async () => {
+        const customerRepository = MockRepository();
+        const customerCreateUseCase = new CreateCustomerUseCase(customerRepository);
+
+        input.name = "";
+
+        await expect(customerCreateUseCase.execute(input)).rejects.toThrow(
+            "Name is required"
+        );
+    });
+
+    it("should thrown an error when street is missing", async () => {
+        const customerRepository = MockRepository();
+        const customerCreateUseCase = new CreateCustomerUseCase(customerRepository);
+
+        input.address.street = "";
+
+        await expect(customerCreateUseCase.execute(input)).rejects.toThrow(
+            "Street is required"
+        );
+    });
 })

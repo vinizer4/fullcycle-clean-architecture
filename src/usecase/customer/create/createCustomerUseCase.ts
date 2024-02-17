@@ -4,7 +4,7 @@ import {v4 as uuid} from "uuid";
 import CustomerFactory from "../../../domain/customer/factory/customer.factory";
 import AddressVO from "../../../domain/customer/dto/addressVO";
 
-export default class CreateCustomerUsecase {
+export default class CreateCustomerUseCase {
     private customerRepository: CustomerRepository;
 
     constructor(customerRepository: CustomerRepository) {
