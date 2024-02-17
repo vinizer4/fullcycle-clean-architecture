@@ -3,6 +3,7 @@ import CustomerModel from "../../../infra/customer/db/model/customer.model";
 import CustomerRepository from "../../../infra/customer/repository/sequelize/customer.repository";
 import Customer from "../../../domain/customer/entity/customer";
 import AddressVO from "../../../domain/customer/dto/addressVO";
+import FindCustomerUseCase from "./find.customer.usecase";
 
 describe("Test find customer use case", () => {
     let sequelize: Sequelize;
@@ -26,14 +27,16 @@ describe("Test find customer use case", () => {
     it("should find customer", async () => {
         const customerRepository = new CustomerRepository()
         const usecase = new FindCustomerUseCase(customerRepository)
+
         const customer = new Customer("123", "John");
         const address = new AddressVO("Street", 123, "Zip", "City")
+
         customer.changeAddress(address)
 
         await customerRepository.create(customer);
 
         const input = {
-            id: "123"
+            id: "123",
         }
 
         const output = {
@@ -42,12 +45,12 @@ describe("Test find customer use case", () => {
             address: {
                 street: "Street",
                 city: "City",
-                state: "State",
+                number: 123,
                 zip: "Zip"
-            }
+            },
         }
 
-        const result = usecase.execute(input);
+        const result = await usecase.execute(input);
 
         expect(result).toEqual(output);
     });
