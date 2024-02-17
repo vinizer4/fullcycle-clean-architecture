@@ -7,8 +7,8 @@ export default class CustomerFactory {
         return new Customer(uuid(), name)
     }
 
-    public static createWithAddress(john: string, address: AddressVO) {
-        const customer = new Customer(uuid(), john);
+    public static createWithAddress(name: string, address: AddressVO) {
+        const customer = new Customer(uuid(), name);
         customer.changeAddress(address);
         return customer;
     }
