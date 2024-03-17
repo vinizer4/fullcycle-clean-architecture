@@ -28,7 +28,7 @@ export default class Customer extends Entity {
 
     constructor(id: string, name: string) {
         super();
-        this.id = id;
+        this._id = id;
         this._name = name;
         this.validate();
 
@@ -55,6 +55,10 @@ export default class Customer extends Entity {
     changeName(name: string) {
         this._name = name;
         this.validate();
+
+        if(this.notification.hasErrors()) {
+            throw new NotificationError(this.notification.getErrors())
+        }
     }
 
     activate() {
