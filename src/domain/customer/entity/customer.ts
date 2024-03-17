@@ -1,3 +1,7 @@
+import AddressVO from "../dto/addressVO";
+import Entity from "../../@shared/entity/entity.abstract";
+import NotificationError from "../../@shared/notification/notification.error";
+
 // Entidade anemica (sem comportamento)
 // Uma entidade por padrão sempre tem que se auto validar e garantir que possua dados válidos
 // Uma entidade por padrão sempre tem que ter um id
@@ -15,34 +19,46 @@
 // Infra - Mundo externo (banco de dados, api, etc)
 // - Entity / Model
 // - - customer.ts (persistencia)
-import AddressVO from "../dto/addressVO";
+export default class Customer extends Entity {
 
-export default class Customer {
-
-    private _id: string;
     private _name: string;
     private _address!: AddressVO;
     private _active: boolean = false;
     private _rewardPoints: number = 0;
 
     constructor(id: string, name: string) {
+        super();
         this._id = id;
         this._name = name;
         this.validate();
+
+        if(this.notification.hasErrors()) {
+            throw new NotificationError(this.notification.getErrors())
+        }
     }
 
     validate() {
         if (this._name.length === 0) {
-            throw new Error('Name is required');
+            this.notification.addError({
+                message: 'Name is required',
+                context: 'customer'
+            });
         }
-        if (this._id.length === 0) {
-            throw new Error('Id is required');
+        if (this.id.length === 0) {
+            this.notification.addError({
+                message: 'Id is required',
+                context: 'customer'
+            });
         }
     }
 
     changeName(name: string) {
         this._name = name;
         this.validate();
+
+        if(this.notification.hasErrors()) {
+            throw new NotificationError(this.notification.getErrors())
+        }
     }
 
     activate() {
@@ -58,10 +74,6 @@ export default class Customer {
 
     set address(address: AddressVO) {
         this._address = address;
-    }
-
-    get id(): string {
-        return this._id;
     }
 
     get name(): string {
