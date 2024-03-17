@@ -1,5 +1,6 @@
 import AddressVO from "../dto/addressVO";
 import Entity from "../../@shared/entity/entity.abstract";
+import NotificationError from "../../@shared/notification/notification.error";
 
 // Entidade anemica (sem comportamento)
 // Uma entidade por padrão sempre tem que se auto validar e garantir que possua dados válidos
@@ -32,7 +33,7 @@ export default class Customer extends Entity {
         this.validate();
 
         if(this.notification.hasErrors()) {
-            throw new Error(this.notification.messages());
+            throw new NotificationError(this.notification.getErrors())
         }
     }
 
