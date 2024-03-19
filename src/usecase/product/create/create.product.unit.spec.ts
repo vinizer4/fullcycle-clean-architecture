@@ -48,7 +48,7 @@ describe("Unit test create product use case", () => {
         input.price = -1;
 
         await expect(productCreateUseCase.execute(input)).rejects.toThrow(
-            "Price must be positive"
+            "product: Price must be positive"
         );
     });
 });
