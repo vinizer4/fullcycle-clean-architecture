@@ -22,7 +22,7 @@ describe("Product unit tests", () => {
         expect(() => {
             const product = new Product("id", "name", -10);
 
-        }).toThrowError("Price must be positive")
+        }).toThrowError("product: Price must be positive")
     })
 
     it("should change name", () => {
