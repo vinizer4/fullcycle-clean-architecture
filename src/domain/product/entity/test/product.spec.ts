@@ -37,4 +37,24 @@ describe("Product unit tests", () => {
         expect(product.price).toBe(20);
     })
 
+    it("should throw error when change name to empty", () => {
+        expect(() => {
+            let product = new Product("1", "test", 10);
+            product.changeName("");
+        }).toThrowError("product: Name is required");
+    });
+
+    it("should throw error when change price to negative", () => {
+        expect(() => {
+            let product = new Product("1", "test", 10);
+            product.changePrice(-10);
+        }).toThrowError("product: Price must be positive");
+    });
+
+    it("should acumulate errors when name to empty and price to negative", () => {
+        expect(() => {
+            let product = new Product("1", "", -10);
+        }).toThrowError("product: Name is required,product: Price must be positive");
+    });
+
 });
